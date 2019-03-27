@@ -29,4 +29,8 @@ To get frames from video you can use ffmpeg or some video editor. For example:
 ```
 ffmpeg -i Frames.m4v Frames/Frame%05d.png -hide_banner
 ```
-
+or you can try to use VideoToPictures.cpp:
+```
+compile VideoToPictures.cpp and
+VideoToPictures.exe D:/Datasets/2019-02-08T14-26-03/Frames.m4v
+```
