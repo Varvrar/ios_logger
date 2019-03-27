@@ -26,7 +26,7 @@
 		E6079DD621A6D8D90079A3C8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6079DD521A6D8D90079A3C8 /* QuartzCore.framework */; };
 		E6079DD821A6D8EA0079A3C8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6079DD721A6D8EA0079A3C8 /* Foundation.framework */; };
 		E6079DDA21A6DAD30079A3C8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6079DD921A6DAD30079A3C8 /* CoreMedia.framework */; };
-		E650D71C21A6BBB900FA55A4 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E650D71B21A6BBB900FA55A4 /* opencv2.framework */; };
+		E6A91C9C224B6A1B00CBC60D /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6A91C9B224B6A1A00CBC60D /* opencv2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +53,7 @@
 		E6079DD521A6D8D90079A3C8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E6079DD721A6D8EA0079A3C8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E6079DD921A6DAD30079A3C8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		E650D71B21A6BBB900FA55A4 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../../../../Downloads/opencv2.framework; sourceTree = "<group>"; };
+		E6A91C9B224B6A1A00CBC60D /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +62,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6079DDA21A6DAD30079A3C8 /* CoreMedia.framework in Frameworks */,
-				E650D71C21A6BBB900FA55A4 /* opencv2.framework in Frameworks */,
 				E6079DD821A6D8EA0079A3C8 /* Foundation.framework in Frameworks */,
 				E6079DD621A6D8D90079A3C8 /* QuartzCore.framework in Frameworks */,
 				E6079DD421A6D8D20079A3C8 /* CoreVideo.framework in Frameworks */,
@@ -70,6 +69,7 @@
 				E6079DD021A6D8C30079A3C8 /* CoreGraphics.framework in Frameworks */,
 				E6079DCE21A6D8BA0079A3C8 /* AVFoundation.framework in Frameworks */,
 				E6079DCC21A6D8B40079A3C8 /* AssetsLibrary.framework in Frameworks */,
+				E6A91C9C224B6A1B00CBC60D /* opencv2.framework in Frameworks */,
 				E6079DCA21A6D8AF0079A3C8 /* Accelerate.framework in Frameworks */,
 				0438792A21344ECA0004FA3E /* CoreMotion.framework in Frameworks */,
 				0438792821344EC30004FA3E /* CoreLocation.framework in Frameworks */,
@@ -117,8 +117,8 @@
 		0438792221344EAB0004FA3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E6A91C9B224B6A1A00CBC60D /* opencv2.framework */,
 				E6079DD921A6DAD30079A3C8 /* CoreMedia.framework */,
-				E650D71B21A6BBB900FA55A4 /* opencv2.framework */,
 				E6079DD721A6D8EA0079A3C8 /* Foundation.framework */,
 				E6079DD521A6D8D90079A3C8 /* QuartzCore.framework */,
 				E6079DD321A6D8D20079A3C8 /* CoreVideo.framework */,
@@ -349,8 +349,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = /Users/macvmws/Downloads;
-				INFOPLIST_FILE = cig_logger/Info.plist;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				INFOPLIST_FILE = ios_logger/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -368,8 +368,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = /Users/macvmws/Downloads;
-				INFOPLIST_FILE = cig_logger/Info.plist;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				INFOPLIST_FILE = ios_logger/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
