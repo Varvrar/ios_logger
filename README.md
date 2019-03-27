@@ -23,4 +23,10 @@ After you collect datasets connect your device to PC and run iTunes. In iTunes g
 * Gyro.txt: time(s),gx(rad/s),gy(rad/s),gz(rad/s)
 * GPS.txt: time(s),latitude(deg),longitude(deg)
 * Frames.txt: time(s),frameNumber
-* Frames.m4v: frames compressed in video
+* Frames.m4v: frames compressed in video 
+
+To get frames from video you can use ffmpeg or some video editor. For example: 
+```
+ffmpeg -i Frames.m4v Frames/Frame%05d.png -hide_banner
+```
+
