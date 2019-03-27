@@ -25,6 +25,11 @@ After you collect datasets connect your device to PC and run iTunes. In iTunes g
 * Frames.txt: time(s),frameNumber
 * Frames.m4v: frames compressed in video 
 
+To syncronize accelerometer and gyroscope data you can use python script sync-data.py:
+```
+python D:/Datasets/sync-data.py D:/Datasets/2019-02-08T14-26-03
+```
+
 To get frames from video you can use ffmpeg or some video editor. For example: 
 ```
 ffmpeg -i Frames.m4v Frames/Frame%05d.png -hide_banner
