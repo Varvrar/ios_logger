@@ -16,7 +16,7 @@ To start collecting dataset push "START" button on the device screen. When you w
 Each dataset will be saved in separate folder on device .
 
 ## Get saved datasets:
-After you collect datasets connect your device to PC and run iTunes. In iTunes go to device-> File Sharing -> ios-logger, in right table check folders with dataset you needed and save it on your PC.
+After you have collected datasets connect your device to PC and run iTunes. In iTunes go to device-> File Sharing -> ios-logger, in right table check folders with dataset you needed and save it on your PC.
 
 ## Dataset format:
 * Accel.txt: time(s(from 1970)),ax(g),ay(g),az(g)
