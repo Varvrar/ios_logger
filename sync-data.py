@@ -16,9 +16,9 @@ g=[]
 a=[]
 t=acc[list('t')].values
 
-#G = 9.81
-#for c in 'abc':
-#    acc[list(c)] = -G*acc[list(c)]
+G = 9.81
+for c in 'abc':
+    acc[list(c)] = G*acc[list(c)]
 
 # Make imu
 for c in 'abc':
@@ -28,4 +28,4 @@ M=np.column_stack((t,g[0],g[1],g[2],a[0],a[1],a[2]))
 
 full = M[M[:,0].argsort()]
 path= path + 'accel-gyro.txt'
-np.savetxt(path, full, delimiter=",",fmt='%.7f')
+np.savetxt(path, full, delimiter=",",fmt='%.6f')
