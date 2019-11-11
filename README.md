@@ -16,7 +16,7 @@ To start collecting dataset:
 * set required image resolution in upper-left corner
 * **if you check ARKit segment - app will use ARKit to get camera images (with ARKit native resolution - depends on device) + app will _logging ARKit poses of the device_ (with origin in place where "START" button was pressed)**
 * set switches with required sensors to be logged
-* _you can set on/off AutoFocus with "AF" button_
+* _you can set AutoFocus on/off with "AF" button_
 * _with off AutoFocus you can set camera focal lenth by slider in bottom-right corned_
 * press "START" button
 * when you want to stop collecting dataset press "STOP" :-)
@@ -40,12 +40,14 @@ In last versions of MacOS you should use finder to acess the device and get File
 * Frames.txt: time(s),frameNumber,_focalLenghtX,focalLenghtY,principalPointX,principalPointY_
 * Frames.m4v: frames compressed in video 
 
-To syncronize accelerometer and gyroscope data you can use python script sync-data.py:
+## Other:
+_To syncronize accelerometer and gyroscope data_ you can use python script sync-data.py:
 ```
 python path_to_folder_with_sync-data/sync-data.py path_to_datasets_folder/dataset_folder
 ```
 
-To get frames from video you can use ffmpeg or some video editor. For example: 
+_To get frames from video you can use ffmpeg or some video editor._
+For example: 
 ```
 ffmpeg -i Frames.m4v Frames/Frame%05d.png -hide_banner
 ```
