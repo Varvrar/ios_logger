@@ -698,6 +698,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     switch(sender.selectedSegmentIndex)
     {
         case 0:
+            reduseFpsInNTimes = 1;
             if(arSession != nil)
             {
                 arSession = nil;
@@ -716,6 +717,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             }
             break;
         case 1:
+            reduseFpsInNTimes = 1;
             if(arSession != nil)
             {
                 arSession = nil;
@@ -734,6 +736,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             }
             break;
         case 2:
+            reduseFpsInNTimes = 1;
             if(arSession != nil)
             {
                 arSession = nil;
