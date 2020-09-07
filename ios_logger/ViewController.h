@@ -6,14 +6,10 @@
 //  Copyright © 2018 Mac. All rights reserved.
 //
 
-#import <opencv2/opencv.hpp>
 #import <CoreMotion/CoreMotion.h>
 #import <CoreLocation/CoreLocation.h>
+#import <AVFoundation/AVFoundation.h>
 #import <ARKit/ARKit.h>
-#import <opencv2/videoio/cap_ios.h>
-#import <opencv2/imgcodecs/ios.h>
-
-using namespace cv;
 
 @interface ViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate, CLLocationManagerDelegate, ARSessionDelegate>
 {
@@ -37,8 +33,6 @@ using namespace cv;
     
     ARSession *arSession;
     ARWorldTrackingConfiguration *arConfiguration;
-    
-    cv::Mat img;
     
     CALayer *viewLayer;
     AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;
@@ -74,8 +68,10 @@ using namespace cv;
     NSMutableString  *logStringFrameStamps;
     NSMutableString  *logStringArPose; //arkit
     
-    VideoWriter videoFrames;
-    unsigned int frameNum;
+    AVAssetWriter *assetWriter;
+    AVAssetWriterInput *assetWriterInput;
+    AVAssetWriterInputPixelBufferAdaptor *assetWriterInputPixelBufferAdaptor;
+    unsigned long frameNum;
     
     float lensPosition;
     

@@ -335,62 +335,6 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
--(cv::Mat)matFromPixelBuffer:(CVPixelBufferRef) buffer{
-    cv::Mat mat;
-    //Lock the base Address so it doesn't get changed!
-    CVPixelBufferLockBaseAddress(buffer, 0);
-    //Get the data from the first plane (Y)
-    void *address =  CVPixelBufferGetBaseAddressOfPlane(buffer, 0);
-    int bufferWidth = (int)CVPixelBufferGetWidthOfPlane(buffer,0);
-    int bufferHeight = (int)CVPixelBufferGetHeightOfPlane(buffer, 0);
-    int bytePerRow = (int)CVPixelBufferGetBytesPerRowOfPlane(buffer, 0);
-    //Get the pixel format
-    OSType pixelFormat = CVPixelBufferGetPixelFormatType(buffer);
-    
-    cv::Mat converted;
-    //NOTE: CV_8UC3 means unsigned (0-255) 8 bits per pixel, with 3 channels!
-    //Check to see if this is the correct pixel format
-    if (pixelFormat == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
-        //We have an ARKIT buffer
-        //Get the yPlane (Luma values)
-        cv::Mat yPlane = cv::Mat(bufferHeight, bufferWidth, CV_8UC1, address);
-        
-        //Get cbcrPlane (Chroma values)
-        int cbcrWidth = (int)CVPixelBufferGetWidthOfPlane(buffer,1);
-        int cbcrHeight = (int)CVPixelBufferGetHeightOfPlane(buffer, 1);
-        void *cbcrAddress = CVPixelBufferGetBaseAddressOfPlane(buffer, 1);
-        //Since the CbCr Values are alternating we have 2 channels: Cb and Cr. Thus we need to use CV_8UC2 here.
-        cv::Mat cbcrPlane = cv::Mat(cbcrHeight, cbcrWidth, CV_8UC2, cbcrAddress);
-        
-        //Split them apart so we can merge them with the luma values
-        std::vector<cv::Mat> cbcrPlanes;
-        cv::split(cbcrPlane, cbcrPlanes);
-        
-        cv::Mat cbPlane;
-        cv::Mat crPlane;
-        
-        //Since we have a 4:2:0 format, cb and cr values are only present for each 2x2 luma pixels. Thus we need to enlargen them (by a factor of 2).
-        cv::resize(cbcrPlanes[0], cbPlane, yPlane.size(), 0, 0, cv::INTER_NEAREST);
-        cv::resize(cbcrPlanes[1], crPlane, yPlane.size(), 0, 0, cv::INTER_NEAREST);
-        
-        cv::Mat ycbcr;
-        std::vector<cv::Mat> allPlanes = {yPlane, cbPlane, crPlane};
-        cv::merge(allPlanes, ycbcr);
-        
-        //ycbcr now contains all three planes. We need to convert it from YCbCr to RGB so OpenCV can work with it
-        
-        cv::cvtColor(ycbcr, converted, cv::COLOR_YCrCb2RGB);
-    } else {
-        //Probably RGB so just use that.
-        converted = cv::Mat(bufferHeight, bufferWidth, CV_8UC3, address, bytePerRow).clone();
-    }
-    
-    //Since we clone the cv::Mat no need to keep the Buffer Locked while we work on it.
-    CVPixelBufferUnlockBaseAddress(buffer, 0);
-    
-    return converted;
-}
-
 - (void)session:(ARSession *)session didUpdateFrame:(ARFrame *)frame {
     double msDate = bootTime + frame.timestamp;
     
@@ -401,9 +345,8 @@
     
     if(ireduceFps == 0)
     {
-        img = [self matFromPixelBuffer:frame.capturedImage];
         matrix_float3x3 camMat = frame.camera.intrinsics;
-        [self processImage:img Timestamp:msDate CameraMatrix:&camMat];
+        [self processImage:frame.capturedImage Timestamp:msDate CameraMatrix:&camMat];
     }
     if(ireduceFps == (reduseFpsInNTimes-1))
         ireduceFps = 0;
@@ -452,21 +395,13 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         
         CVPixelBufferLockBaseAddress(buffer, 0);
         
-        void *address =  CVPixelBufferGetBaseAddressOfPlane(buffer, 0);
-        int bufferWidth = (int)CVPixelBufferGetWidthOfPlane(buffer,0);
-        int bufferHeight = (int)CVPixelBufferGetHeightOfPlane(buffer, 0);
-        int bytePerRow = (int)CVPixelBufferGetBytesPerRowOfPlane(buffer, 0);
-        //OSType pixelFormat = CVPixelBufferGetPixelFormatType(buffer);
-        
-        img = cv::Mat(bufferHeight, bufferWidth, CV_8UC4, address, bytePerRow);
-        
-        [self processImage:img Timestamp:msDate CameraMatrix:camMatrix];
+        [self processImage:buffer Timestamp:msDate CameraMatrix:camMatrix];
         
         CVPixelBufferUnlockBaseAddress(buffer, 0);
     }
 }
 
-- (void)processImage:(Mat&)image Timestamp:(double)msDate CameraMatrix:(matrix_float3x3*)camMat
+- (void)processImage:(CVPixelBufferRef)pixelBuffer Timestamp:(double)msDate CameraMatrix:(matrix_float3x3*)camMat
 {
     //crop_resize(image, image, cv::Size(800,600));
     
@@ -478,13 +413,39 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         //------------
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        
         NSString *filePath = [[NSString alloc] initWithString:[NSString stringWithFormat:@"%@/%@/Frames.m4v", documentsDirectory, theDate]];
-        
-        const char* filePathC = [filePath cStringUsingEncoding:NSMacOSRomanStringEncoding];
-        const cv::String filePathS = (const cv::String)filePathC;
-        
-        videoFrames.open(filePathS, CV_FOURCC('X','V','I','D'), FPS, image.size());
+        //---
+        NSError *error = nil;
+        NSURL *outputURL = [NSURL fileURLWithPath:filePath];
+        assetWriter = [AVAssetWriter assetWriterWithURL:outputURL fileType:AVFileTypeAppleM4V error:&error];
+        if (!assetWriter) {
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"assetWriter: %@", error] preferredStyle:UIAlertControllerStyleAlert]; \
+            UIAlertAction* okButton = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){}]; \
+            [alert addAction:okButton]; \
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        //---
+        NSDictionary *writerInputParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                           AVVideoCodecTypeHEVC, AVVideoCodecKey, // AVVideoCodecTypeH264 can be used
+                                                     [NSNumber numberWithInt:(int)CVPixelBufferGetWidthOfPlane(pixelBuffer,0)], AVVideoWidthKey,
+                                                     [NSNumber numberWithInt:(int)CVPixelBufferGetHeightOfPlane(pixelBuffer, 0)], AVVideoHeightKey,
+                                                     AVVideoScalingModeResizeAspectFill, AVVideoScalingModeKey,
+                                                     nil];
+           
+        assetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:writerInputParams];
+        if ([assetWriter canAddInput:assetWriterInput]) {
+            [assetWriter addInput:assetWriterInput];
+        } else {
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"assetWriter can't AddInput: %@", assetWriter.error] preferredStyle:UIAlertControllerStyleAlert]; \
+            UIAlertAction* okButton = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){}]; \
+            [alert addAction:okButton]; \
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        //---
+        assetWriterInputPixelBufferAdaptor = [AVAssetWriterInputPixelBufferAdaptor assetWriterInputPixelBufferAdaptorWithAssetWriterInput:assetWriterInput sourcePixelBufferAttributes:nil];
+        //---
+        [assetWriter startWriting];
+        [assetWriter startSessionAtSourceTime:kCMTimeZero];
         //------------
         
         isStarted = NO;
@@ -493,36 +454,39 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     if(isRecording)
     {
-        frameNum += 1;
-        
-        if(camMat != nullptr){
-            [logStringFrameStamps appendString: [NSString stringWithFormat:@"%f,%u,%f,%f,%f,%f\r\n",
-                                                 msDate,
-                                                 frameNum,
-                                                 camMat->columns[0][0],
-                                                 camMat->columns[1][1],
-                                                 camMat->columns[2][0],
-                                                 camMat->columns[2][1]]];
+        if(assetWriterInput.isReadyForMoreMediaData)
+        {
+            if(![assetWriterInputPixelBufferAdaptor appendPixelBuffer:pixelBuffer withPresentationTime:CMTimeMake(frameNum, FPS)])
+                NSLog(@"assetWriterInput cant appendPixelBuffer!");
+            else
+            {
+                if(camMat != nullptr){
+                    [logStringFrameStamps appendString: [NSString stringWithFormat:@"%f,%lu,%f,%f,%f,%f\r\n",
+                                                         msDate,
+                                                         frameNum,
+                                                         camMat->columns[0][0],
+                                                         camMat->columns[1][1],
+                                                         camMat->columns[2][0],
+                                                         camMat->columns[2][1]]];
+                }
+                else{
+                    [logStringFrameStamps appendString: [NSString stringWithFormat:@"%f,%lu\r\n",
+                                                         msDate,
+                                                         frameNum]];
+                }
+                
+                frameNum += 1;
+            }
         }
-        else{
-            [logStringFrameStamps appendString: [NSString stringWithFormat:@"%f,%u\r\n",
-                                                 msDate,
-                                                 frameNum]];
-        }
-        videoFrames.write(image);
+        else
+            NSLog(@"assetWriterInput.isReadyForMoreMediaData = NO!");
+    }
 
-        UIImage *img = [ViewController UIImageFromCVMat:image];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self->imageView.image = img;
-        });
-    }
-    else
-    {
-        UIImage *img = MatToUIImage(image);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self->imageView.image = img;
-        });
-    }
+    CIImage *ciimage = [CIImage imageWithCVImageBuffer:pixelBuffer];
+    UIImage *img = [UIImage imageWithCIImage:ciimage];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self->imageView.image = img;
+    });
 }
 
 - (void)_timerFired:(NSTimer *)timer {
@@ -621,10 +585,21 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         if(segmentedControl.selectedSegmentIndex == 3)
             [self writeStringToFile:logStringArPose FileName:@"ARposes"];
         
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
-        dispatch_async(queue, ^{
-            self->videoFrames.release();
-        });
+        [self->assetWriterInput markAsFinished];
+        [self->assetWriter finishWritingWithCompletionHandler:^{
+            if (self->assetWriter.error) {
+                {UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"assetWriter: %@", self->assetWriter.error] preferredStyle:UIAlertControllerStyleAlert]; \
+                UIAlertAction* okButton = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){}]; \
+                [alert addAction:okButton]; \
+                [self presentViewController:alert animated:YES completion:nil];}
+            } else {
+                // outputURL
+            }
+        }];
+        
+        self->assetWriter = nil;
+        self->assetWriterInput = nil;
+        self->assetWriterInputPixelBufferAdaptor = nil;
 
         [sender setTitle:@"START" forState:UIControlStateNormal];
     }
@@ -902,78 +877,6 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     }
     
     return success;
-}
-
-+(UIImage *)UIImageFromCVMat:(cv::Mat)cvMat {
-    NSData *data = [NSData dataWithBytes:cvMat.data length:cvMat.step.p[0]*cvMat.rows];
-    
-    CGColorSpaceRef colorSpace;
-    CGBitmapInfo bitmapInfo;
-    
-    if (cvMat.elemSize() == 1) {
-        colorSpace = CGColorSpaceCreateDeviceGray();
-        bitmapInfo = kCGImageAlphaNone | kCGBitmapByteOrderDefault;
-    } else {
-        colorSpace = CGColorSpaceCreateDeviceRGB();
-        bitmapInfo = kCGBitmapByteOrder32Little | (
-                                                   cvMat.elemSize() == 3? kCGImageAlphaNone : kCGImageAlphaNoneSkipFirst
-                                                   );
-    }
-    
-    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
-    
-    // Creating CGImage from cv::Mat
-    CGImageRef imageRef = CGImageCreate(
-                                        cvMat.cols,                 //width
-                                        cvMat.rows,                 //height
-                                        8,                          //bits per component
-                                        8 * cvMat.elemSize(),       //bits per pixel
-                                        cvMat.step[0],              //bytesPerRow
-                                        colorSpace,                 //colorspace
-                                        bitmapInfo,                 // bitmap info
-                                        provider,                   //CGDataProviderRef
-                                        NULL,                       //decode
-                                        false,                      //should interpolate
-                                        kCGRenderingIntentDefault   //intent
-                                        );
-    
-    // Getting UIImage from CGImage
-    UIImage *finalImage = [UIImage imageWithCGImage:imageRef];
-    CGImageRelease(imageRef);
-    CGDataProviderRelease(provider);
-    CGColorSpaceRelease(colorSpace);
-    
-    return finalImage;
-}
-
-+ (cv::Mat)cvMatWithImage:(UIImage *)image
-{
-    CGColorSpaceRef colorSpace = CGImageGetColorSpace(image.CGImage);
-    size_t numberOfComponents = CGColorSpaceGetNumberOfComponents(colorSpace);
-    CGFloat cols = image.size.width;
-    CGFloat rows = image.size.height;
-    
-    cv::Mat cvMat(rows, cols, CV_8UC4); // 8 bits per component, 4 channels
-    CGBitmapInfo bitmapInfo = kCGImageAlphaNoneSkipLast | kCGBitmapByteOrderDefault;
-    
-    // check whether the UIImage is greyscale already
-    if (numberOfComponents == 1){
-        cvMat = cv::Mat(rows, cols, CV_8UC1); // 8 bits per component, 1 channels
-        bitmapInfo = kCGImageAlphaNone | kCGBitmapByteOrderDefault;
-    }
-    
-    CGContextRef contextRef = CGBitmapContextCreate(cvMat.data,             // Pointer to backing data
-                                                    cols,                       // Width of bitmap
-                                                    rows,                       // Height of bitmap
-                                                    8,                          // Bits per component
-                                                    cvMat.step[0],              // Bytes per row
-                                                    colorSpace,                 // Colorspace
-                                                    bitmapInfo);              // Bitmap info flags
-    
-    CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), image.CGImage);
-    CGContextRelease(contextRef);
-    
-    return cvMat;
 }
 
 @end

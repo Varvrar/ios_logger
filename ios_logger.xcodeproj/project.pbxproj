@@ -13,20 +13,11 @@
 		0438791621343D0C0004FA3E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0438791521343D0C0004FA3E /* Assets.xcassets */; };
 		0438791921343D0C0004FA3E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0438791721343D0C0004FA3E /* LaunchScreen.storyboard */; };
 		0438791C21343D0C0004FA3E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0438791B21343D0C0004FA3E /* main.m */; };
-		0438792421344EAC0004FA3E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438792321344EAC0004FA3E /* MobileCoreServices.framework */; };
-		0438792621344EBB0004FA3E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438792521344EBB0004FA3E /* UIKit.framework */; };
 		0438792821344EC30004FA3E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438792721344EC30004FA3E /* CoreLocation.framework */; };
 		0438792A21344ECA0004FA3E /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438792921344ECA0004FA3E /* CoreMotion.framework */; };
-		E6079DCA21A6D8AF0079A3C8 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6079DC921A6D8AF0079A3C8 /* Accelerate.framework */; };
-		E6079DCC21A6D8B40079A3C8 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6079DCB21A6D8B40079A3C8 /* AssetsLibrary.framework */; };
 		E6079DCE21A6D8BA0079A3C8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6079DCD21A6D8BA0079A3C8 /* AVFoundation.framework */; };
-		E6079DD021A6D8C30079A3C8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6079DCF21A6D8C30079A3C8 /* CoreGraphics.framework */; };
-		E6079DD221A6D8CB0079A3C8 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6079DD121A6D8CB0079A3C8 /* CoreImage.framework */; };
-		E6079DD421A6D8D20079A3C8 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6079DD321A6D8D20079A3C8 /* CoreVideo.framework */; };
-		E6079DD621A6D8D90079A3C8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6079DD521A6D8D90079A3C8 /* QuartzCore.framework */; };
-		E6079DD821A6D8EA0079A3C8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6079DD721A6D8EA0079A3C8 /* Foundation.framework */; };
 		E6079DDA21A6DAD30079A3C8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6079DD921A6DAD30079A3C8 /* CoreMedia.framework */; };
-		E6A91C9C224B6A1B00CBC60D /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6A91C9B224B6A1A00CBC60D /* opencv2.framework */; };
+		E6F130D02506423A00CEBFD4 /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6F130CF2506423A00CEBFD4 /* ARKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,20 +31,11 @@
 		0438791821343D0C0004FA3E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0438791A21343D0C0004FA3E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0438791B21343D0C0004FA3E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0438792321344EAC0004FA3E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		0438792521344EBB0004FA3E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0438792721344EC30004FA3E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0438792921344ECA0004FA3E /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		E6079DC921A6D8AF0079A3C8 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		E6079DCB21A6D8B40079A3C8 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		E6079DCD21A6D8BA0079A3C8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		E6079DCF21A6D8C30079A3C8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		E6079DD121A6D8CB0079A3C8 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
-		E6079DD321A6D8D20079A3C8 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		E6079DD521A6D8D90079A3C8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		E6079DD721A6D8EA0079A3C8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E6079DD921A6DAD30079A3C8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		E6A91C9B224B6A1A00CBC60D /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		E6F130CF2506423A00CEBFD4 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,20 +43,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6F130D02506423A00CEBFD4 /* ARKit.framework in Frameworks */,
 				E6079DDA21A6DAD30079A3C8 /* CoreMedia.framework in Frameworks */,
-				E6079DD821A6D8EA0079A3C8 /* Foundation.framework in Frameworks */,
-				E6079DD621A6D8D90079A3C8 /* QuartzCore.framework in Frameworks */,
-				E6079DD421A6D8D20079A3C8 /* CoreVideo.framework in Frameworks */,
-				E6079DD221A6D8CB0079A3C8 /* CoreImage.framework in Frameworks */,
-				E6079DD021A6D8C30079A3C8 /* CoreGraphics.framework in Frameworks */,
 				E6079DCE21A6D8BA0079A3C8 /* AVFoundation.framework in Frameworks */,
-				E6079DCC21A6D8B40079A3C8 /* AssetsLibrary.framework in Frameworks */,
-				E6A91C9C224B6A1B00CBC60D /* opencv2.framework in Frameworks */,
-				E6079DCA21A6D8AF0079A3C8 /* Accelerate.framework in Frameworks */,
 				0438792A21344ECA0004FA3E /* CoreMotion.framework in Frameworks */,
 				0438792821344EC30004FA3E /* CoreLocation.framework in Frameworks */,
-				0438792621344EBB0004FA3E /* UIKit.framework in Frameworks */,
-				0438792421344EAC0004FA3E /* MobileCoreServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,20 +90,11 @@
 		0438792221344EAB0004FA3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E6A91C9B224B6A1A00CBC60D /* opencv2.framework */,
-				E6079DD921A6DAD30079A3C8 /* CoreMedia.framework */,
-				E6079DD721A6D8EA0079A3C8 /* Foundation.framework */,
-				E6079DD521A6D8D90079A3C8 /* QuartzCore.framework */,
-				E6079DD321A6D8D20079A3C8 /* CoreVideo.framework */,
-				E6079DD121A6D8CB0079A3C8 /* CoreImage.framework */,
-				E6079DCF21A6D8C30079A3C8 /* CoreGraphics.framework */,
+				E6F130CF2506423A00CEBFD4 /* ARKit.framework */,
 				E6079DCD21A6D8BA0079A3C8 /* AVFoundation.framework */,
-				E6079DCB21A6D8B40079A3C8 /* AssetsLibrary.framework */,
-				E6079DC921A6D8AF0079A3C8 /* Accelerate.framework */,
+				E6079DD921A6DAD30079A3C8 /* CoreMedia.framework */,
 				0438792921344ECA0004FA3E /* CoreMotion.framework */,
 				0438792721344EC30004FA3E /* CoreLocation.framework */,
-				0438792521344EBB0004FA3E /* UIKit.framework */,
-				0438792321344EAC0004FA3E /* MobileCoreServices.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -284,7 +248,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -336,7 +300,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -356,7 +320,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "idn.ios-logger";
 				PRODUCT_NAME = "ios logger";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -376,7 +340,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "idn.ios-logger";
 				PRODUCT_NAME = "ios logger";
 				TARGETED_DEVICE_FAMILY = "1,2";
